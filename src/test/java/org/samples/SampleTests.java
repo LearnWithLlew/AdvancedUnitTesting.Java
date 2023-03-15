@@ -1,31 +1,28 @@
 package org.samples;
 
 
-import org.approvaltests.Approvals;
+import com.spun.util.ObjectUtils;
 import org.junit.jupiter.api.Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SampleTests
 {
   @Test
-  public void testNormalJunit()
-  {
-    assertEquals(5, 5);
+  void testConnection() {
+    var connection = getConnection();
+
   }
-  @Test
-  public void testWithApprovalTests()
-  {
-    Approvals.verify("Hello World");
-  }
-  /**
-    *  note: this requires GSON which is currently added in the pom.xml file. 
-    *  This is only required if you want to use the VerifyAsJson.
-    **/
-  @Test
-  public void testJson()
-  {
-    Person hero = new Person("jayne", "cobb", true, 38);
-    Approvals.verifyAsJson(hero);
+
+  private Connection getConnection()  {
+    try {
+      return  DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "");
+    } catch (SQLException e) {
+      throw ObjectUtils.throwAsError(e);
+    }
   }
 }
