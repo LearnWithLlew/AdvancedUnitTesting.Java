@@ -2,11 +2,11 @@ package org.samples;
 
 
 import com.spun.util.ObjectUtils;
+import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Test;
 
+import java.sql.*;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,20 +14,18 @@ public class SampleTests
 {
   @Test
   void testConnection() throws SQLException {
-    assertEquals(42, executeNumericQuery("Select 42;"));
+    assertEquals(42, SqlUtilites.executeNumericQuery("Select 42;", getConnection()));
   }
 
   @Test
   void testVersion() throws SQLException {
-    assertEquals(1, executeNumericQuery("Select value from metadata where name='schema_version'"));
+    assertEquals(1, SqlUtilites.executeNumericQuery("Select value from metadata where name='schema_version'", getConnection()));
   }
 
-  private int executeNumericQuery(String query) throws SQLException {
-    var connection = getConnection();
-    var result = connection.createStatement().executeQuery(query);
-    result.next();
-    int theAnswer = result.getInt(1);
-    return theAnswer;
+  @Test
+  void testSchema() throws SQLException {
+    var schema = SqlUtilites.loadSchema(getConnection());
+    Approvals.verify(SqlUtilites.print(schema));
   }
 
   private Connection getConnection()  {

@@ -1,0 +1,160 @@
+actor
+--------------------
+     actor_id: SMALLINT UNSIGNED[Nullable]
+     first_name: VARCHAR[Nullable]
+     last_name: VARCHAR[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
+address
+--------------------
+     address_id: SMALLINT UNSIGNED[Nullable]
+     address: VARCHAR[Nullable]
+     address2: VARCHAR[Not Null]
+     district: VARCHAR[Nullable]
+     city_id: SMALLINT UNSIGNED[Nullable]
+     postal_code: VARCHAR[Not Null]
+     phone: VARCHAR[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
+category
+--------------------
+     category_id: TINYINT UNSIGNED[Nullable]
+     name: VARCHAR[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
+city
+--------------------
+     city_id: SMALLINT UNSIGNED[Nullable]
+     city: VARCHAR[Nullable]
+     country_id: SMALLINT UNSIGNED[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
+country
+--------------------
+     country_id: SMALLINT UNSIGNED[Nullable]
+     country: VARCHAR[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
+customer
+--------------------
+     customer_id: SMALLINT UNSIGNED[Nullable]
+     store_id: TINYINT UNSIGNED[Nullable]
+     first_name: VARCHAR[Nullable]
+     last_name: VARCHAR[Nullable]
+     email: VARCHAR[Not Null]
+     address_id: SMALLINT UNSIGNED[Nullable]
+     active: BOOLEAN[Nullable]
+     create_date: DATETIME[Nullable]
+     last_update: TIMESTAMP[Not Null]
+
+
+film
+--------------------
+     film_id: SMALLINT UNSIGNED[Nullable]
+     title: VARCHAR[Nullable]
+     description: TEXT[Not Null]
+     release_year: YEAR[Not Null]
+     language_id: TINYINT UNSIGNED[Nullable]
+     original_language_id: TINYINT UNSIGNED[Not Null]
+     rental_duration: TINYINT UNSIGNED[Nullable]
+     rental_rate: DECIMAL[Nullable]
+     length: SMALLINT UNSIGNED[Not Null]
+     replacement_cost: DECIMAL[Nullable]
+     rating: ENUM[Not Null]
+     special_features: SET[Not Null]
+     last_update: TIMESTAMP[Nullable]
+
+
+film_actor
+--------------------
+     actor_id: SMALLINT UNSIGNED[Nullable]
+     film_id: SMALLINT UNSIGNED[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
+film_category
+--------------------
+     film_id: SMALLINT UNSIGNED[Nullable]
+     category_id: TINYINT UNSIGNED[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
+film_text
+--------------------
+     film_id: SMALLINT[Nullable]
+     title: VARCHAR[Nullable]
+     description: TEXT[Not Null]
+
+
+inventory
+--------------------
+     inventory_id: MEDIUMINT UNSIGNED[Nullable]
+     film_id: SMALLINT UNSIGNED[Nullable]
+     store_id: TINYINT UNSIGNED[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
+language
+--------------------
+     language_id: TINYINT UNSIGNED[Nullable]
+     name: CHAR[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
+metadata
+--------------------
+     id: INT[Nullable]
+     name: VARCHAR[Nullable]
+     value: VARCHAR[Nullable]
+
+
+payment
+--------------------
+     payment_id: SMALLINT UNSIGNED[Nullable]
+     customer_id: SMALLINT UNSIGNED[Nullable]
+     staff_id: TINYINT UNSIGNED[Nullable]
+     rental_id: INT[Not Null]
+     amount: DECIMAL[Nullable]
+     payment_date: DATETIME[Nullable]
+     last_update: TIMESTAMP[Not Null]
+
+
+rental
+--------------------
+     rental_id: INT[Nullable]
+     rental_date: DATETIME[Nullable]
+     inventory_id: MEDIUMINT UNSIGNED[Nullable]
+     customer_id: SMALLINT UNSIGNED[Nullable]
+     return_date: DATETIME[Not Null]
+     staff_id: TINYINT UNSIGNED[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
+staff
+--------------------
+     staff_id: TINYINT UNSIGNED[Nullable]
+     first_name: VARCHAR[Nullable]
+     last_name: VARCHAR[Nullable]
+     address_id: SMALLINT UNSIGNED[Nullable]
+     picture: BLOB[Not Null]
+     email: VARCHAR[Not Null]
+     store_id: TINYINT UNSIGNED[Nullable]
+     active: BOOLEAN[Nullable]
+     username: VARCHAR[Nullable]
+     password: VARCHAR[Not Null]
+     last_update: TIMESTAMP[Nullable]
+
+
+store
+--------------------
+     store_id: TINYINT UNSIGNED[Nullable]
+     manager_staff_id: TINYINT UNSIGNED[Nullable]
+     address_id: SMALLINT UNSIGNED[Nullable]
+     last_update: TIMESTAMP[Nullable]
+
+
