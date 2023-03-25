@@ -14,11 +14,20 @@ public class SampleTests
 {
   @Test
   void testConnection() throws SQLException {
+    assertEquals(42, executeNumericQuery("Select 42;"));
+  }
+
+  @Test
+  void testVersion() throws SQLException {
+    assertEquals(1, executeNumericQuery("Select value from metadata where name='schema_version'"));
+  }
+
+  private int executeNumericQuery(String query) throws SQLException {
     var connection = getConnection();
-    var result = connection.createStatement().executeQuery("Select 42;");
+    var result = connection.createStatement().executeQuery(query);
     result.next();
     int theAnswer = result.getInt(1);
-    assertEquals(42, theAnswer);
+    return theAnswer;
   }
 
   private Connection getConnection()  {
