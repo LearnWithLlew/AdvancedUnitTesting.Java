@@ -23,12 +23,16 @@ public class DatabaseTests {
     @Test
     void testVersion() throws SQLException {
         skipTestOnCI();
-        assertEquals(1, SqlUtilites.executeNumericQuery("Select value from metadata where name='schema_version'", getConnection()));
+        assertEquals(1, getSchemaVersion(getConnection()));
     }
     @Test
     void testInMemoryVersion() throws SQLException {
         Connection connection = createInMemoryDatabase(1);
-        assertEquals(1, SqlUtilites.executeNumericQuery("Select value2 from metadata where name='schema_version'", connection));
+        assertEquals(1, getSchemaVersion(connection));
+    }
+
+    private static int getSchemaVersion(Connection connection) throws SQLException {
+        return SqlUtilites.executeNumericQuery("Select data_value from metadata where data_name='schema_version'", connection);
     }
 
     private Connection createInMemoryDatabase(int version) throws SQLException {
@@ -37,7 +41,7 @@ public class DatabaseTests {
         statement.execute(
                 "DROP Table if exists metadata"
         );
-        statement.execute("CREATE TABLE metadata as (SELECT 'schema_version' as name, 1 as value2)");
+        statement.execute("CREATE TABLE metadata as (SELECT 'schema_version' as data_name, 1 as data_value)");
        return connection;
     }
 

@@ -109,8 +109,8 @@ language
 metadata
 --------------------
      id: INT[Nullable]
-     name: VARCHAR[Nullable]
-     value: VARCHAR[Nullable]
+     data_name: VARCHAR[Nullable]
+     data_value: VARCHAR[Nullable]
 
 
 payment
