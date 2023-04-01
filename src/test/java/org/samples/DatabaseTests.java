@@ -19,7 +19,6 @@ public class DatabaseTests {
         assertEquals(42, SqlUtilites.executeNumericQuery("Select 42;", getConnection()));
     }
 
-
     @Test
     void testVersion() throws SQLException {
         skipTestOnCI();
@@ -32,10 +31,21 @@ public class DatabaseTests {
         var schema = SqlUtilites.loadSchema(getConnection());
         Approvals.verify(SqlUtilites.print(schema));
     }
-
+    @Test
+    void testInMemoryConnection() throws SQLException {
+        assertEquals(42, SqlUtilites.executeNumericQuery("Select 42;", getInMemoryConnection()));
+    }
     private Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "");
+        } catch (SQLException e) {
+            throw ObjectUtils.throwAsError(e);
+        }
+    }
+
+    private Connection getInMemoryConnection() {
+        try {
+             return DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
         } catch (SQLException e) {
             throw ObjectUtils.throwAsError(e);
         }
