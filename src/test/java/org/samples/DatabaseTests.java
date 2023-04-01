@@ -2,16 +2,17 @@ package org.samples;
 
 
 import com.spun.util.ObjectUtils;
+
 import org.approvaltests.Approvals;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.samples.CiUtils.skipTestOnCI;
+import static org.samples.ProductionDatabase.createDatabase;
 
 public class DatabaseTests {
     @Test
@@ -23,38 +24,37 @@ public class DatabaseTests {
     @Test
     void testVersion() throws SQLException {
         skipTestOnCI();
-        assertEquals(1, getSchemaVersion(getConnection()));
+        assertEquals(1, ProductionDatabase.getSchemaVersion(getConnection()));
     }
-    @Test
-    void testInMemoryVersion() throws SQLException {
-        Connection connection = createInMemoryDatabase(1);
-        assertEquals(1, getSchemaVersion(connection));
-    }
-
-    private static int getSchemaVersion(Connection connection) throws SQLException {
-        return SqlUtilites.executeNumericQuery("Select data_value from metadata where data_name='schema_version'", connection);
-    }
-
-    private Connection createInMemoryDatabase(int version) throws SQLException {
-        Connection connection = getInMemoryConnection();
-        Statement statement = connection.createStatement();
-        statement.execute(
-                "DROP Table if exists metadata"
-        );
-        statement.execute("CREATE TABLE metadata as (SELECT 'schema_version' as data_name, 1 as data_value)");
-       return connection;
-    }
-
     @Test
     void testSchema() throws SQLException {
         skipTestOnCI();
         var schema = SqlUtilites.loadSchema(getConnection());
         Approvals.verify(SqlUtilites.print(schema));
     }
+
     @Test
     void testInMemoryConnection() throws SQLException {
         assertEquals(42, SqlUtilites.executeNumericQuery("Select 42;", getInMemoryConnection()));
     }
+    @Test
+    void testInMemoryVersion() throws SQLException {
+        Connection connection = createInMemoryDatabase(1);
+        assertEquals(1, ProductionDatabase.getSchemaVersion(connection));
+    }
+
+    
+    void testInMemorySchema() throws SQLException {
+        Connection connection = createInMemoryDatabase(1);
+        var schema = SqlUtilites.loadSchema(connection);
+        Approvals.verify(SqlUtilites.print(schema));
+    }
+    private Connection createInMemoryDatabase(int version) throws SQLException {
+        Connection connection = getInMemoryConnection();
+        createDatabase(connection, version);
+        return connection;
+    }
+
     private Connection getConnection() {
         try {
             return DriverManager.getConnection("jdbc:mariadb://localhost:3306/sakila", "root", "");
@@ -63,9 +63,15 @@ public class DatabaseTests {
         }
     }
 
+
     private Connection getInMemoryConnection() {
         try {
-             return DriverManager.getConnection("jdbc:h2:~/sakila", "sa", "");
+            Connection connection = DriverManager.getConnection("jdbc:h2:~/test", "sa", "");
+
+            connection.createStatement().execute("DROP SCHEMA IF EXISTS sakila CASCADE");
+            connection.createStatement().execute("CREATE SCHEMA sakila");
+            connection.createStatement().execute("SET SCHEMA sakila");
+            return connection;
         } catch (SQLException e) {
             throw ObjectUtils.throwAsError(e);
         }
