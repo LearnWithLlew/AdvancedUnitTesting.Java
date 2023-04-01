@@ -10,7 +10,7 @@ import java.sql.Connection;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SampleTests
+public class DatabaseTests
 {
   @Test
   void testConnection() throws SQLException {
