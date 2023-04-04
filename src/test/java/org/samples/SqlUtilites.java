@@ -16,6 +16,7 @@ public class SqlUtilites {
       ResultSet tables = metaData.getColumns(connection.getCatalog(), null, null, null);
       var schema = new HashMap<String, List<ColumnInfo>>();
       while (tables.next()){
+        if ("INFORMATION_SCHEMA".equals(tables.getString("TABLE_SCHEM"))){continue;}
         String tableName = tables.getString("TABLE_NAME");
         var columns = schema.getOrDefault(tableName, new ArrayList<>());
         String columnName = tables.getString("COLUMN_NAME");

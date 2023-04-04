@@ -43,7 +43,7 @@ public class DatabaseTests {
         assertEquals(1, ProductionDatabase.getSchemaVersion(connection));
     }
 
-    
+    @Test
     void testInMemorySchema() throws SQLException {
         Connection connection = createInMemoryDatabase(1);
         var schema = SqlUtilites.loadSchema(connection);
