@@ -1,6 +1,160 @@
+ACTOR
+--------------------
+     ACTOR_ID: NUMERIC[Nullable]
+     FIRST_NAME: CHARACTER VARYING[Nullable]
+     LAST_NAME: CHARACTER VARYING[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+ADDRESS
+--------------------
+     ADDRESS_ID: INTEGER[Nullable]
+     ADDRESS: CHARACTER VARYING[Nullable]
+     ADDRESS2: CHARACTER VARYING[Not Null]
+     DISTRICT: CHARACTER VARYING[Nullable]
+     CITY_ID: INTEGER[Nullable]
+     POSTAL_CODE: CHARACTER VARYING[Not Null]
+     PHONE: CHARACTER VARYING[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+CATEGORY
+--------------------
+     CATEGORY_ID: SMALLINT[Nullable]
+     NAME: CHARACTER VARYING[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+CITY
+--------------------
+     CITY_ID: INTEGER[Nullable]
+     CITY: CHARACTER VARYING[Nullable]
+     COUNTRY_ID: SMALLINT[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+COUNTRY
+--------------------
+     COUNTRY_ID: SMALLINT[Nullable]
+     COUNTRY: CHARACTER VARYING[Nullable]
+     LAST_UPDATE: TIMESTAMP[Not Null]
+
+
+CUSTOMER
+--------------------
+     CUSTOMER_ID: INTEGER[Nullable]
+     STORE_ID: INTEGER[Nullable]
+     FIRST_NAME: CHARACTER VARYING[Nullable]
+     LAST_NAME: CHARACTER VARYING[Nullable]
+     EMAIL: CHARACTER VARYING[Not Null]
+     ADDRESS_ID: INTEGER[Nullable]
+     ACTIVE: CHARACTER[Nullable]
+     CREATE_DATE: TIMESTAMP[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+FILM
+--------------------
+     FILM_ID: INTEGER[Nullable]
+     TITLE: CHARACTER VARYING[Nullable]
+     DESCRIPTION: CHARACTER LARGE OBJECT[Not Null]
+     RELEASE_YEAR: CHARACTER VARYING[Not Null]
+     LANGUAGE_ID: SMALLINT[Nullable]
+     ORIGINAL_LANGUAGE_ID: SMALLINT[Not Null]
+     RENTAL_DURATION: SMALLINT[Nullable]
+     RENTAL_RATE: DECIMAL[Nullable]
+     LENGTH: SMALLINT[Not Null]
+     REPLACEMENT_COST: DECIMAL[Nullable]
+     RATING: CHARACTER VARYING[Not Null]
+     SPECIAL_FEATURES: CHARACTER VARYING[Not Null]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+FILM_ACTOR
+--------------------
+     ACTOR_ID: INTEGER[Nullable]
+     FILM_ID: INTEGER[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+FILM_CATEGORY
+--------------------
+     FILM_ID: INTEGER[Nullable]
+     CATEGORY_ID: SMALLINT[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+FILM_TEXT
+--------------------
+     FILM_ID: SMALLINT[Nullable]
+     TITLE: CHARACTER VARYING[Nullable]
+     DESCRIPTION: CHARACTER LARGE OBJECT[Not Null]
+
+
+INVENTORY
+--------------------
+     INVENTORY_ID: INTEGER[Nullable]
+     FILM_ID: INTEGER[Nullable]
+     STORE_ID: INTEGER[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+LANGUAGE
+--------------------
+     LANGUAGE_ID: SMALLINT[Nullable]
+     NAME: CHARACTER[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
 METADATA
 --------------------
-     DATA_NAME: CHARACTER VARYING[Not Null]
-     DATA_VALUE: INTEGER[Not Null]
+     ID: INTEGER[Nullable]
+     DATA_NAME: CHARACTER VARYING[Nullable]
+     DATA_VALUE: CHARACTER VARYING[Nullable]
+
+
+PAYMENT
+--------------------
+     PAYMENT_ID: INTEGER[Nullable]
+     CUSTOMER_ID: INTEGER[Nullable]
+     STAFF_ID: SMALLINT[Nullable]
+     RENTAL_ID: INTEGER[Not Null]
+     AMOUNT: DECIMAL[Nullable]
+     PAYMENT_DATE: TIMESTAMP[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+RENTAL
+--------------------
+     RENTAL_ID: INTEGER[Nullable]
+     RENTAL_DATE: TIMESTAMP[Nullable]
+     INVENTORY_ID: INTEGER[Nullable]
+     CUSTOMER_ID: INTEGER[Nullable]
+     RETURN_DATE: TIMESTAMP[Not Null]
+     STAFF_ID: SMALLINT[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+STAFF
+--------------------
+     STAFF_ID: SMALLINT[Nullable]
+     FIRST_NAME: CHARACTER VARYING[Nullable]
+     LAST_NAME: CHARACTER VARYING[Nullable]
+     ADDRESS_ID: INTEGER[Nullable]
+     PICTURE: BINARY LARGE OBJECT[Not Null]
+     EMAIL: CHARACTER VARYING[Not Null]
+     STORE_ID: INTEGER[Nullable]
+     ACTIVE: SMALLINT[Nullable]
+     USERNAME: CHARACTER VARYING[Nullable]
+     PASSWORD: CHARACTER VARYING[Not Null]
+     LAST_UPDATE: TIMESTAMP[Nullable]
+
+
+STORE
+--------------------
+     STORE_ID: INTEGER[Nullable]
+     MANAGER_STAFF_ID: SMALLINT[Nullable]
+     ADDRESS_ID: INTEGER[Nullable]
+     LAST_UPDATE: TIMESTAMP[Nullable]
 
 
