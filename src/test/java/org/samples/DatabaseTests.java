@@ -48,7 +48,19 @@ public class DatabaseTests {
         Connection connection = createInMemoryDatabase(1);
         var schema = SqlUtilites.loadSchema(connection);
         Approvals.verify(SqlUtilites.print(schema));
+        connection.close();
+
+        connection = createInMemoryDatabase(0);
+        ProductionDatabase.updateDatabaseVersionTo(1, connection);
+        schema = SqlUtilites.loadSchema(connection);
+        Approvals.verify(SqlUtilites.print(schema));
+        connection.close();
     }
+
+
+
+
+
     private Connection createInMemoryDatabase(int version) throws SQLException {
         Connection connection = getInMemoryConnection();
         createDatabase(connection, version);
