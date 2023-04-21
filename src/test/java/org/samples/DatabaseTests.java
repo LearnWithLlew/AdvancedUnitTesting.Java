@@ -57,7 +57,12 @@ public class DatabaseTests {
         connection.close();
     }
 
-
+    @Test
+    void testExecutableQuery() throws SQLException {
+        // TODO:
+    }
+    
+    
 
 
 
